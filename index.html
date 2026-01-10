@@ -1,0 +1,1646 @@
+<head>
+    <meta charset="UTF-8">
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+   
+    <title>Caja de Herramientas - Madurez Digital</title>
+    <style>
+        :root {
+            --purple: #005EB8;
+            --bg: #f8f9fa;
+            --accent-orange: #DC3220;
+            --shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg); color: #333; line-height: 1.6; font-size: 18px; }
+
+        header { 
+            background: white; 
+            padding: 10px 20px; 
+            display: flex; 
+            flex-direction: column; /* ¡ESTO ES CLAVE para las 2 filas! */
+            gap: 5px; /* Espacio pequeño entre el logo y el botón de inicio */
+            border-bottom: 1px solid #e0e0e0; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+        }
+        
+       
+
+        /* Ajuste del encabezado para dos filas */
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .header-bottom {
+            display: flex;
+            align-items: center;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            margin-top: 5px;
+        }
+
+
+        /* Regla para el logo de ITCILO */
+        .itcilo-svg {
+            height: 45px;
+            width: auto;
+            display: block;
+        }
+
+         /* Estilo para el botón de Inicio (optimizado para iPhone) */
+        .logo { 
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold; 
+            color: var(--purple); 
+            font-size: 1.4rem; 
+            text-decoration: none; 
+            cursor: pointer; 
+            -webkit-tap-highlight-color: transparent; /* Elimina el cuadro gris al tocar en iPhone */
+        }
+
+        input[type="range"] {
+        -webkit-appearance: none; /* Elimina el estilo predeterminado */
+        width: 100%;
+        height: 12px;
+        background: #ddd;
+        border-radius: 6px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background: #4CAF50;
+        border-radius: 50%;
+        cursor: pointer;
+        }
+
+
+
+        #langPicker { padding: 6px; border-radius: 6px; border: 1px solid #ccc; cursor: pointer; }
+
+        .container { max-width: 900px; margin: 20px auto; padding: 15px; }
+        .hidden { display: none !important; }
+
+        .app-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+        .app-card { background: white; padding: 40px 20px; border-radius: 20px; text-align: center; cursor: pointer; box-shadow: var(--shadow); border: 2px solid transparent; transition: 0.3s; text-decoration: none; color: inherit; }
+        .app-card:hover { border-color: var(--purple); transform: translateY(-5px); }
+
+        /* ESTILOS NUEVOS PARA EL HUB (MENU DE INICIO) */
+        .icon-circle { width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; font-size: 3.5rem; }
+        .bg-maturity { background-color: #fff0f6; }
+        .bg-tools { background-color: #f0f4ff; }
+
+        details.guia-contenedor { background: white; padding: 20px; border-radius: 12px; border: 2px solid var(--purple); margin-bottom: 25px; box-shadow: var(--shadow); }
+        details.guia-contenedor summary { font-weight: bold; cursor: pointer; font-size: 1.25rem; color: var(--purple); outline: none; }
+        .guia-contenido { padding: 20px 0; font-size: 1rem; line-height: 1.6; color: #444; }
+        .guia-contenido h4 { margin: 20px 0 10px 0; color: var(--accent-orange); font-size: 1.1rem; }
+
+        .dim-header { background: var(--purple); color: white; padding: 12px 15px; border-radius: 6px; margin: 40px 0 20px 0; font-weight: bold; font-size: 1.2rem; }
+        .q-card { background: white; padding: 30px; margin-bottom: 20px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-left: 6px solid #CCC; }
+        .q-card.selected { border-left-color: var(--accent-orange); background-color: #f0f7ff; }
+        .q-text { font-size: 1.3rem; margin-bottom: 20px; font-weight: 600; display: block; color: #222; }
+
+        .likert { display: flex; justify-content: space-between; gap: 10px; margin-top: 20px; }
+        .likert label { 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            flex: 1; cursor: pointer; font-weight: bold; font-size: 1.4rem; 
+            padding: 15px 5px; border: 2px solid #eee; border-radius: 10px; transition: 0.2s;
+            background: #fafafa;
+        }
+        .likert label small { font-size: 0.7rem; font-weight: normal; margin-top: 6px; display: block; color: #333; }
+        .likert label:hover { background: #f0f0f0; border-color: #ccc; }
+        .likert input[type="radio"] { transform: scale(1.5); margin-bottom: 10px; cursor: pointer; }
+
+        .btn { padding: 18px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1.2rem; text-align: center; text-decoration: none; width: 100%; display: block; margin-top: 15px; }
+        .btn-primary { background: var(--purple); color: white; }
+        .btn-outline { background: transparent; border: 2px solid #ccc; color: #666; }
+
+        .btn-row { display:flex; gap:12px; margin-top:16px; }
+        .btn-row .btn { flex:1; }
+        .calc-row { margin-top:12px; }
+
+        .report-box { background: white; padding: 30px; border-radius: 15px; box-shadow: var(--shadow); position: relative; }
+        .score-display { font-size: 3.5rem; font-weight: 900; color: var(--purple); display: block; text-align: center; }
+        .bar-wrap { background: #EEE; height: 12px; border-radius: 6px; margin-bottom: 15px; overflow: hidden; }
+        .bar-fill { background: var(--purple); height: 100%; width: 0%; transition: width 1s; }
+        .advice-item { margin-bottom: 12px; padding: 12px; border-bottom: 1px solid #f0f0f0; line-height: 1.4; font-size: 0.95rem; }
+        .advice-item strong { color: var(--purple); display: block; margin-bottom: 4px; text-transform: uppercase; font-size: 0.85rem; }
+
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-content { background: white; padding: 25px; border-radius: 15px; width: 90%; max-width: 400px; text-align: center; }
+        .modal-content input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
+
+        /* ESTILO GLOBAL PARA TODOS LOS H1 */
+        h1 {
+            color: var(--purple);       /* Tu azul institucional */
+            font-size: 2.5rem;          /* Más grande que el h2 */
+            font-weight: 600;           /* Más grueso para resaltar */
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: -1px;       /* Un toque moderno: letras un poco más juntas */
+        }
+       
+              
+        /* ESTILO GLOBAL PARA TODOS LOS H2 */
+        h2 {
+            color: var(--purple) !important;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+       
+        /* UNIFICACIÓN DE TARJETAS PARA HERRAMIENTAS Y BIBLIOTECA */
+        .resource-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--purple); /* Usamos tu variable --purple */
+            margin-bottom: 20px;
+            text-align: left;
+            transition: transform 0.2s;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .resource-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .resource-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #222;
+        }
+
+        .resource-tag {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        /* Ajuste para que los botones de las herramientas no sean gigantes */
+        .btn-sm {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            width: auto;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        #tools-screen p#txt-tools-subtitle {
+        margin-bottom: 40px;   /* Controla el espacio hacia abajo (antes de las tarjetas) */
+        color: #666;           /* El color gris. Si quieres que sea más claro usa #999 */
+        font-size: 1.1rem;     /* El tamaño de la letra */
+        font-weight: 400;      /* Asegura que no esté en negrilla */
+        line-height: 1.4;      /* Mejora el espacio entre líneas si el texto es largo */
+        letter-spacing: 0.5px; /* Separa un poco las letras para un look más moderno */
+        }
+
+       
+        /* Ajuste para que las tarjetas de Biblioteca/Herramientas se vean mejor */
+        #tools-screen .resource-card {
+            padding: 30px 20px;       /* Bajamos un poco el padding para que no se pegue al borde superior */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* CAMBIO CLAVE: Alinea todo al inicio (arriba) */
+            min-height: 180px; 
+        }
+
+
+        /* Ajuste para el bloque de Anuncio */
+        .guia-contenedor {
+            border: 2px solid var(--purple) !important;
+            background-color: white !important;
+            margin-bottom: 40px !important;
+        }
+
+        /* Botón de navegación principal (Regresar) */
+        .btn-nav-full {
+            display: block;      /* Ocupa toda la fila */
+            width: 100%;         /* Asegura el 100% del ancho del contenedor */
+            padding: 12px;
+            margin-top: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .main-footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: #666;
+            
+        }
+
+        .main-footer a {
+            color: var(--purple);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .main-footer a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* ESTILOS DE IMPRESIÓN */
+        @media print {
+            header, .btn-row, #langPicker, #txt-print, .modal { display: none !important; }
+            body { background: white; font-size: 12pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; margin: 15mm !important; }
+            .container { margin: 0; padding: 0; width: 100%; max-width: 100%; }
+            .report-box { box-shadow: none; border: 1px solid #eee; padding: 15px; page-break-inside: avoid; }
+            .score-display { font-size: 2.5rem; }
+            .bar-wrap { background: #EEE !important; }
+            .bar-fill { background-color: var(--purple) !important; }
+            @page { margin: 0; size: auto; }
+        }
+
+        @media (max-width: 600px) {
+            /* Ajuste de encabezados para móvil */
+            h1 { font-size: 1.8rem; margin-bottom: 20px; } /* Bajamos de 2.5 a 1.8 */
+            h2 { font-size: 1.5rem; margin-bottom: 15px; } /* Bajamos de 2.0 a 1.5 */
+
+            /* Tus otros estilos que ya tenías */
+            .likert { gap: 8px; flex-wrap: wrap; }
+            .likert label { font-size: 1rem; padding: 8px 6px; }
+            .likert input[type="radio"] { transform: scale(1.2); margin-bottom: 8px; }
+            .q-text { font-size: 1.2rem; }
+            .btn-row{ flex-direction: column; gap: 10px; }
+            .btn{ padding: 12px; font-size: 1rem; }
+            header { padding: 10px 14px; }
+            .q-card{ padding: 18px; }
+        }
+
+                
+
+
+        
+
+    </style>
+</head>
+
+
+<body>
+
+   <header>
+        <div class="header-top">
+            <div class="itcilo-logo-container">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" class="itcilo-svg">
+                    <circle fill="#005EB8" cx="40" cy="40" r="35"/>
+                    <circle fill="white" cx="40" cy="40" r="28"/>
+                    <circle fill="#005EB8" cx="40" cy="40" r="18"/>
+                    <text x="85" y="55" font-family="Arial, sans-serif" font-weight="900" font-size="32" fill="#005EB8">ITCILO</text>
+                </svg>
+            </div>
+            
+            <select id="langPicker" onchange="changeLanguage()">
+                <option value="es">Español</option>
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+            </select>
+        </div>
+
+        <div class="header-bottom">
+            <div class="logo" role="button" onclick="showSection('selection-screen')" ontouchstart="">
+                <span>🏠</span>
+                <span id="txt-nav-home">Inicio</span>
+            </div>
+        </div>
+    </header>
+
+<!-- AQUI SE DEFINEN LAS SECCIONES-->   
+
+    <div class="container">
+
+<!--SECCION PAGINA PRINCIPAL -->       
+
+        <section id="main-hub">
+            <h1 id="txt-hub-title">Escoge una opción</h1>
+            
+            <div class="app-grid">
+                
+                <div class="app-card" onclick="showSection('selection-screen')">
+                    <div class="icon-circle bg-tools">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 3V21H21" stroke="var(--purple)" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M7 14L11 10L15 14L20 9" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 id="txt-hub-maturity">Madurez Digital</h3>
+                </div>
+
+                <div class="app-card" onclick="showSection('tools-screen')">
+                    <div class="icon-circle bg-tools">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 19.5C4 18.837 4.26339 18.2011 4.73223 17.7322C5.20107 17.2634 5.83696 17 6.5 17H20" stroke="var(--purple)" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M6.5 2H20V22H6.5C5.83696 22 5.20107 21.7366 4.73223 21.2678C4.26339 20.7989 4 20.163 4 19.5V4.5C4 3.8370 4.26339 3.2011 4.73223 2.73223C5.20107 2.26339 5.83696 2 6.5 2Z" stroke="var(--purple)" stroke-width="2" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 id="txt-hub-library">Herramientas y Biblioteca</h3>
+                </div>
+
+            </div>
+        </section>
+
+
+
+<!--SECCION SELECCION DE TIPO DE EVALUACION INDIVIDUAL U ORGANIZACIONAL-->
+
+        <section id="selection-screen" class="hidden">
+        <h2 id="txt-main-title" style="margin-bottom:40px; text-align: center;">Evaluación de Madurez Digital</h2>
+        
+        <div class="app-grid">
+            <div class="app-card" onclick="initSurvey('individual')">
+                <div class="icon-circle bg-tools">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="8" r="5" fill="var(--purple)"/>
+                        <path d="M20 19C20 15.6863 17.3137 13 14 13H10C6.68629 13 4 15.6863 4 19V20H20V19Z" fill="var(--purple)"/>
+                    </svg>
+                </div>
+                <h3 id="txt-btn-ind">Individual</h3>
+            </div>
+
+            <div class="app-card" onclick="initSurvey('organizational')">
+                <div class="icon-circle bg-tools">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 21H21V7H13V3H3V21ZM5 5H11V19H5V5ZM15 9H19V19H15V9Z" stroke="var(--purple)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <rect x="7" y="7" width="2" height="1.5" fill="var(--purple)" opacity="0.4"/>
+                        <rect x="7" y="11" width="2" height="1.5" fill="var(--purple)" opacity="0.4"/>
+                        <rect x="16" y="11" width="2" height="1.5" fill="var(--purple)" opacity="0.4"/>
+                    </svg>
+                </div>
+                <h3 id="txt-btn-org">Organizacional</h3>
+            </div>
+        </div>
+    </section>
+
+<!--SECCION DEL CUESTIONARIO Y RESULTADOS-->
+
+        <section id="survey-screen" class="hidden">
+            <h2 id="survey-title"; margin-bottom: 10px;"></h2>
+            <div id="guia-container"></div>
+            <form id="quiz-form"></form>
+            <div class="btn-row">
+                <button class="btn btn-outline" id="txt-btn-reset" onclick="resetForm()">Limpiar Formulario</button>
+                <button class="btn btn-outline" id="txt-btn-back" onclick="showSection('selection-screen')">Regresar</button>
+            </div>
+            <div class="calc-row">
+                <button class="btn btn-primary" id="txt-btn-calc" onclick="calculate()">Calcular</button>
+            </div>
+        </section>
+
+<!--SECCION DE REPORTES-->
+    
+        <section id="report-screen" class="hidden">
+            <div class="report-box" id="print-area">
+                <div id="print-header" style="text-align: right; font-size: 0.8rem; color: #666; margin-bottom: 10px;"></div>
+                <p id="res-type" style="text-transform: uppercase; font-weight: bold; color: #666; font-size: 0.9rem;"></p>
+                <h2 id="txt-rep-title" style="border-bottom: 2px solid var(--purple); margin-bottom: 20px;">Reporte</h2>
+                <span class="score-display" id="res-score">0.0</span>
+                <h3 id="res-level" style="text-align: center; color: var(--accent-orange); margin-bottom: 20px;">Nivel</h3>
+                <div id="res-dimensions"></div>
+                <div style="margin-top:25px; padding:20px; border: 1px solid #ddd; border-radius: 12px; background: #fafafa;">
+                    <h4 id="txt-pdp-title" style="margin-bottom:15px; color: var(--purple); border-left: 4px solid var(--accent-orange); padding-left: 10px;">Hoja de Ruta Estratégica:</h4>
+                    <div id="res-advice-list"></div>
+                </div>
+            </div>
+            <div class="btn-row">
+                <button class="btn btn-outline" onclick="showSection('main-hub')" id="txt-btn-back-report">Volver al Inicio</button>
+                <button class="btn btn-outline" onclick="returnToSurvey()" id="txt-btn-back-to-survey">Volver al Cuestionario</button>
+            </div>
+            <button class="btn btn-primary" onclick="showPrintModal()" id="txt-print">Imprimir / PDF</button>
+        </section>
+
+<!--SECCION MODALES-->        
+
+        <div id="alert-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3 id="txt-alert-title">Atención</h3>
+                <p id="txt-alert-msg">Por favor, responda todas las preguntas.</p>
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="closeAlert()" id="txt-alert-btn">Ok</button>
+                </div>
+            </div>
+        </div>
+
+<!--SECCION IMPRESION-->
+
+        <div id="print-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3 id="txt-modal-title">¿Incluir nombre?</h3>
+                <input type="text" id="user-name" placeholder="Tu nombre (opcional)">
+                <div class="btn-row">
+                    <button class="btn btn-primary" onclick="handlePrint(true)" id="txt-modal-yes">Sí</button>
+                    <button class="btn btn-outline" onclick="handlePrint(false)" id="txt-modal-no">No</button>
+                </div>
+            </div>
+        </div>
+
+<!--SECCION DE HERRAMIENTAS Y BIBLIOTECA-->
+
+        <!-- sección para los botones de entrada a biblioteca y herramientas-->
+
+        <section id="tools-screen" class="hidden">
+            <div style="text-align: center; padding-top: 20px;">
+                <h2 id="txt-tools-title">Herramientas y Biblioteca</h2>
+                <p id="txt-tools-subtitle">Recursos seleccionados para tu transformación digital</p>
+            </div>
+
+            <div style="max-width: 900px; margin: 0 auto;">
+                <details class="guia-contenedor">
+                    <summary style="list-style: none; font-weight: bold; color: var(--purple);">
+                        <span id="txt-sw-announcement-title">👉 Anuncio</span>
+                    </summary>
+                    <div style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;">
+                        <p id="txt-sw-disclosure" style="font-size: 0.9rem; color: #444; line-height: 1.6;">
+                            </p>
+                    </div>
+                </details>
+
+                <div class="app-grid">
+                    <div class="resource-card" onclick="showSection('library-section')" style="cursor: pointer;">
+                        <h3 id="txt-tool1-title" style="margin-bottom: 10px;">Biblioteca</h3>
+                        <p id="txt-tool1-desc" style="font-size: 0.95rem; color: #666;">Documentación sobre gobernanza digital y procesos digitales.</p>
+                    </div>
+
+                    <div class="resource-card" onclick="showSection('tools-section')" style="cursor: pointer;">
+                        <h3 id="txt-tool2-title" style="margin-bottom: 10px;">Herramientas</h3>
+                        <p id="txt-tool2-desc" style="font-size: 0.95rem; color: #666;">Algunas herramientas para el mundo digital.</p>
+                    </div>
+                </div>
+
+                <div style="max-width: 900px; margin: 0 auto;">
+                    <button class="btn btn-outline btn-nav-full" onclick="showSection('main-hub')" id="txt-btn-back-hub">
+                        Regresar al Inicio
+                    </button>
+                </div>
+
+            </div>
+        </section>
+        
+    <!-- sección para biblioteca-->
+
+        <section id="library-section" class="hidden">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h2 id="txt-library-main-title" style="font-weight: 700;">Biblioteca</h2>
+                <p id="txt-guides-subtitle" style="color: #888; font-size: 0.95rem;">Recursos seleccionados para tu transformación digital</p>
+            </div>
+
+            <div style="max-width: 850px; margin: 0 auto; display: flex; flex-direction: column; gap: 35px;">
+                
+                <div class="resource-card" style="padding: 0; border-top: 3px solid var(--purple);">
+                    <div style="padding: 15px 25px; background: #fafafa; border-bottom: 1px solid #eee;">
+                        <h3 style="margin: 0; font-size: 1rem; color: var(--purple); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                            Organismos e Informes Internacionales
+                        </h3>
+                    </div>
+                    <div style="padding: 5px 0;">
+                        <a href="https://www.un.org/en/content/digital-cooperation-roadmap/" target="_blank" class="list-item-minimal" style="padding: 15px 25px; border-bottom: 1px solid #f9f9f9; font-weight: 400;">
+                            <span>UN: Roadmap for Digital Cooperation</span>
+                            <span style="color: var(--purple); opacity: 0.5;">↗</span>
+                        </a>
+                        <a href="https://www.undp.org/publications/shared-vision-digital-technology-and-governance" target="_blank" class="list-item-minimal" style="padding: 15px 25px; border-bottom: 1px solid #f9f9f9; font-weight: 400;">
+                            <span>UNDP: A Shared Vision for Digital Technology and Governance</span>
+                            <span style="color: var(--purple); opacity: 0.5;">↗</span>
+                        </a>
+                        <a href="https://www.ilo.org/resource/learning-journey/governance-social-protection-systems" target="_blank" class="list-item-minimal" style="padding: 15px 25px; border-bottom: 1px solid #f9f9f9; font-weight: 400;">
+                            <span>ILO: Governance of Social Protection Systems</span>
+                            <span style="color: var(--purple); opacity: 0.5;">↗</span>
+                        </a>
+                        <a href="https://www.who.int/initiatives/global-strategy-on-digital-health" target="_blank" class="list-item-minimal" style="padding: 15px 25px; border-bottom: 1px solid #f9f9f9; font-weight: 400;">
+                            <span>WHO: Global Strategy on Digital Health 2020–2025</span>
+                            <span style="color: var(--purple); opacity: 0.5;">↗</span>
+                        </a>
+                        <a href="https://www.ilo.org/" target="_blank" class="list-item-minimal" style="padding: 15px 25px; border-bottom: none; font-weight: 400;">
+                            <span>International Labour Organization (ILO) Portal</span>
+                            <span style="color: var(--purple); opacity: 0.5;">↗</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="resource-card" style="padding: 0; border-top: 3px solid var(--purple);">
+                    <div style="padding: 15px 25px; background: #fafafa; border-bottom: 1px solid #eee;">
+                        <h3 style="margin: 0; font-size: 1rem; color: var(--purple); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                            Marcos de Trabajo y Academia
+                        </h3>
+                    </div>
+                    <div style="padding: 5px 0;">
+                        <a href="https://www.sciencedirect.com/science/article/pii/S014829632200720X" target="_blank" class="list-item-minimal" style="padding: 15px 25px; border-bottom: 1px solid #f9f9f9; font-weight: 400;">
+                            <span>Digital governance: A conceptual framework (Journal of Business Research)</span>
+                            <span style="color: var(--purple); opacity: 0.5;">↗</span>
+                        </a>
+                        <a href="https://publications.jrc.ec.europa.eu/repository/handle/JRC128415" target="_blank" class="list-item-minimal" style="padding: 15px 25px; border-bottom: 1px solid #f9f9f9; font-weight: 400;">
+                            <span>DigComp 2.2: The Digital Competence Framework (EU Commission)</span>
+                            <span style="color: var(--purple); opacity: 0.5;">↗</span>
+                        </a>
+                        <a href="https://scholar.google.com/" target="_blank" class="list-item-minimal" style="padding: 15px 25px; border-bottom: none; font-weight: 400;">
+                            <span>Google Scholar (Buscador de literatura académica)</span>
+                            <span style="color: var(--purple); opacity: 0.5;">↗</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="resource-card" style="padding: 0; border-top: 3px solid var(--purple);">
+                    <div style="padding: 15px 25px; background: #fafafa; border-bottom: 1px solid #eee;">
+                        <h3 style="margin: 0; font-size: 1rem; color: var(--purple); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                            Agencias Nacionales y Casos de Éxito
+                        </h3>
+                    </div>
+                    <div style="padding: 10px 0;">
+                        <a href="https://www.gov.uk/government/publications/ai-playbook-for-the-uk-government" target="_blank" class="list-item-minimal" style="padding: 15px 25px; border-bottom: 1px solid #f9f9f9; font-weight: 400;">
+                            <span>UK Government: AI Playbook (2025)</span>
+                            <span style="color: var(--purple); opacity: 0.5;">↗</span>
+                        </a>
+                        <a href="https://www.tech.gov.sg/" target="_blank" class="list-item-minimal" style="padding: 15px 25px; border-bottom: 1px solid #f9f9f9; font-weight: 400;">
+                            <span>GovTech Singapore: Measuring Government Digitalisation</span>
+                            <span style="color: var(--purple); opacity: 0.5;">↗</span>
+                        </a>
+                        <a href="https://www.digital.go.jp/en/" target="_blank" class="list-item-minimal" style="padding: 15px 25px; border-bottom: 1px solid #f9f9f9; font-weight: 400;">
+                            <span>Digital Agency of Japan (English Portal)</span>
+                            <span style="color: var(--purple); opacity: 0.5;">↗</span>
+                        </a>
+                        <a href="https://www.cisa.gov/" target="_blank" class="list-item-minimal" style="padding: 15px 25px; border-bottom: 1px solid #f9f9f9; font-weight: 400;">
+                            <span>Cybersecurity and Infrastructure Security Agency (CISA)</span>
+                            <span style="color: var(--purple); opacity: 0.5;">↗</span>
+                        </a>
+                        <a href="https://www.nist.gov/" target="_blank" class="list-item-minimal" style="padding: 15px 25px; border-bottom: none; font-weight: 400;">
+                            <span>National Institute of Standards and Technology (NIST)</span>
+                            <span style="color: var(--purple); opacity: 0.5;">↗</span>
+                        </a>
+                    </div>
+                </div>
+
+                <button class="btn btn-outline btn-nav-full" onclick="showSection('tools-screen')" id="txt-btn-back-to-tools" style="margin-top: 20px;">
+                    Regresar
+                </button>
+            </div>
+        </section>
+
+    <!-- sección para herramientas-->
+
+        <section id="tools-section" class="hidden">
+            <div style="text-align: center; margin-bottom: 25px;">
+                <h2 id="txt-sw-main-title">Centro de Herramientas</h2>
+                <div style="background-color: #fef9e7; padding: 12px; border-radius: 8px; margin: 15px 0; border: 1px solid #f9e79f;">
+                    <p id="txt-sw-announce" style="font-size: 0.9rem; color: #856404; margin: 0;">
+                        Aviso: Esta lista de herramientas es solo con fines académicos.
+                    </p>
+                </div>
+            </div>
+
+            <div id="sw-list" style="display: flex; flex-direction: column; gap: 20px;">
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span style="font-size: 1.4rem;">⚙️</span>
+                        <strong class="resource-title">KoboToolbox</strong>
+                    </div>
+                    <p class="resource-tag">
+                        <span id="txt-sw-item1-tag">Datos y Encuestas</span> | Survey & Feedback
+                    </p>
+                    <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px;">
+                        <a href="https://www.kobotoolbox.org/" target="_blank" class="btn btn-primary btn-sm" id="txt-btn-sw-test1">Probar</a>
+                        <a href="https://www.youtube.com/watch?v=h6S_S_v96YI" target="_blank" class="btn btn-outline btn-sm" id="txt-btn-sw-tuto1">Tutorial</a>
+                    </div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span style="font-size: 1.4rem;">📊</span>
+                        <strong class="resource-title">Grafana Play</strong>
+                    </div>
+                    <p class="resource-tag">
+                        <span id="txt-sw-item2-tag">Reportes</span> | Dashboard & BI
+                    </p>
+                    <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px;">
+                        <a href="https://play.grafana.org/" target="_blank" class="btn btn-primary btn-sm" id="txt-btn-sw-test2">Probar</a>
+                        <a href="https://www.youtube.com/watch?v=N6a3Z9-mGCo" target="_blank" class="btn btn-outline btn-sm" id="txt-btn-sw-tuto2">Tutorial</a>
+                    </div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span style="font-size: 1.4rem;">🔄</span>
+                        <strong class="resource-title">n8n.io</strong>
+                    </div>
+                    <p class="resource-tag">
+                        <span id="txt-sw-item3-tag">Procesos</span> | Workflow Automation
+                    </p>
+                    <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px;">
+                        <a href="https://n8n.io/" target="_blank" class="btn btn-primary btn-sm" id="txt-btn-sw-test3">Probar</a>
+                        <a href="https://www.youtube.com/watch?v=0-9M_mN0Q0A" target="_blank" class="btn btn-outline btn-sm" id="txt-btn-sw-tuto3">Tutorial</a>
+                    </div>
+                </div>
+            </div>
+
+           
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-outline btn-nav-full" onclick="showSection('tools-screen')" id="txt-btn-back-to-tools">
+                    Regresar
+                </button>
+</div>
+            </div>
+        </section>
+
+
+    </div>
+
+<!--FINAL DE LA SECCION DE DEFINICION DE SECCIONES-->     
+
+         <footer class="main-footer">
+            <p><br><br>
+                © 2026 International Training Centre of the ILO. All rights reserved. 
+                <a href="https://www.itcilo.org/privacy-policy" target="_blank" id="txt-privacy">Privacy</a>.
+            </p>
+        </footer>
+
+
+<!--COMIENZA SECCION DE SCRIPTS-->     
+
+    <script>
+        const content = {
+            
+            
+//Comienza seccion en español
+            es: {
+                browser_title: "ITCILO Caja de Herramientas - Madurez Digital",
+                txt_logo: "Caja de Herramientas",
+                alert_title: "Atención", alert_msg: "Por favor, responda todas las preguntas.", alert_btn: "Ok",
+                nav_home: "Inicio", main_title: "Evaluación de Madurez Digital",
+                scale_short: ["Totalmente en desacuerdo","En desacuerdo","Neutral","De acuerdo","Totalmente de acuerdo"],
+                individual: "Evaluación de madurez Digital Individual",
+                organizational: "Evaluación de madurez digital organizacional",
+                btn_ind: "Individual", btn_org: "Organizacional", btn_calc: "Calcular", btn_reset: "Limpiar Formulario", btn_back: "Regresar", btn_home: "Volver al Inicio", btn_back_report: "Volver al Inicio", btn_back_to_survey: "Volver al Cuestionario",
+                rep_title: "Reporte de Madurez", pdp_title: "Hoja de Ruta Estratégica:", print: "Imprimir / PDF",
+                modal_title: "Incluye tu nombre (opcional)", modal_placeholder: "Tu nombre...", modal_yes: "Sí", modal_no: "No", date_label: "Fecha",
+                guia_sum: { individual: "Guía de la Evaluación Individual", organizational: "Guía de la Evaluación Organizacional" },
+                hub_title: "Escoge una opción",
+                hub_maturity: "Madurez Digital",
+                hub_library: "Herramientas y Biblioteca",
+                tools_title: "Herramientas y Biblioteca",
+                tools_subtitle: "Recursos seleccionados para tu transformación digital",
+                tool1_title: "Biblioteca",
+                tool1_desc: "Documentación sobre gobernanza digital y procesos digitales.",
+                tool2_title: "Herramientas",
+
+                library_main_title: "Biblioteca",
+                guides_subtitle: "Recursos seleccionados para tu transformación digital",
+                cat1_title: "Documentos Académicos",
+                cat2_title: "Estrategias y Reportes",
+                btn_back_to_tools: "Regresar",
+                sw_main_title: "Centro de Herramientas",
+                sw_announce: "Aviso: Esta lista de herramientas es solo con fines académicos.",
+                sw_item1_tag: "Datos y Encuestas",
+                sw_item2_tag: "Reportes",
+                sw_item3_tag: "Procesos",
+                btn_sw_test: "Probar",   // Variable genérica para botones
+                btn_sw_tuto: "Tutorial", // Variable genérica para botones
+                btn_sw_back: "Regresar",
+                tool2_desc: "Algunas herramientas para el mundo digital.",
+                sw_announcement_title: "👉 Anuncio",
+                sw_disclosure: "Las herramientas y plataformas enumeradas en este conjunto de recursos se proporcionan exclusivamente con fines académicos y de formación en el marco de este curso. Si bien estas herramientas son ampliamente reconocidas y no cuentan con antecedentes conocidos de riesgos de seguridad que impidan su uso en un entorno de aprendizaje, el ITCILO y los organizadores del curso no respaldan ni exigen oficialmente su uso para operaciones profesionales, comerciales o institucionales fuera de esta actividad académica. <br><br>La decisión de implementar, desplegar o utilizar cualquiera de estas herramientas para fines que trasciendan este curso es responsabilidad exclusiva del participante y/o de su organización respectiva. Los usuarios deben evaluar de forma independiente las políticas de privacidad, los estándares de seguridad de datos y los términos de servicio de cada herramienta para garantizar que se alineen con los requisitos específicos y las obligaciones legales de su organización.",
+
+
+
+
+    // contenido de las instrucciones del desplegable en español
+                guia_full: {
+                individual: `
+                    <h4>Objetivo</h4>
+                    <p>Esta evaluación ha sido diseñada para identificar tu nivel actual de competencias y cultura dentro del mundo digital.</p>
+                    <p><strong>El objetivo de este cuestionario es:</strong></p>
+                    <ul>
+                        <li>Medir la capacidad actual para adoptar y liderar cambios tecnológicos.</li>
+                        <li>Identificar brechas específicas en flujos de trabajo y gestión de datos.</li>
+                        <li>Brindar una hoja de ruta con sugerencias para avanzar de nivel.</li>
+                    </ul>
+                    <h4>El Espíritu de la Evaluación</h4>
+                    <p>Esta herramienta es un ejercicio de reflexión para profesionales y líderes. Su objetivo es mapear cómo su visión se integra con los seis elementos del mundo digital (Propósito, Datos, Metodología, Herramientas, Personas y Procesos), transformando el conocimiento en una capacidad de gobernanza sólida para la institución.</p>
+                    <h4>Niveles de Madurez</h4>
+                    <p><strong>Nivel 1: Explorador</strong> - Está iniciando su camino. No posee experiencia previa; fase de descubrimiento. Prioridad: aprender conceptos básicos.</p>
+                    <p><strong>Nivel 2: Competente</strong> - Navega con facilidad en la terminología técnica. Capaz de facilitar estándares y reproducir conocimiento. Implementa seguridad y ética.</p>
+                    <p><strong>Nivel 3: Gestor</strong> - Conocimiento integral de los seis elementos. Optimiza procesos y lidera equipos asegurando que la tecnología cumpla objetivos estratégicos.</p>
+                    <p><strong>Nivel 4: Maduro</strong> - Referente estratégico. Define el estándar de la organización. Innova en entornos inciertos y mentoriza a otros.</p>
+                    <h4>Instrucciones de llenado</h4>
+                    <p><strong>Escala (1-5) — Indique su grado de acuerdo con cada afirmación:</strong></p>
+                    <p>
+                    1: Totalmente en desacuerdo <br> 
+                    2: En desacuerdo <br> 
+                    3: Neutral <br> 4: De acuerdo <br> 
+                    5: Totalmente de acuerdo
+                    </p>
+                `,
+                organizational: `
+                <h4>Objetivo</h4>
+                <p>Esta herramienta es un vehículo de aprendizaje diseñado para que las instituciones 
+                    identifiquen las fortalezas y brechas fundamentales en su marco de
+                     gobernanza digital. Su objetivo es mapear cómo las estructuras y reglas de 
+                     la organización se integran con los seis elementos del mundo 
+                     digital: propósito, datos, metodología, herramientas, personas y procesos. 
+                     A través de este ejercicio de reflexión institucional, 
+                     se busca apoyar acciones de transformación digital alineadas con los objetivos estratégicos de la institución.</p>
+                
+                <h4>Niveles de Madurez</h4>
+                <p>
+                   
+                    <p><strong>Nivel 1 - Inicial:</strong> La gobernanza es reactiva y "ad-hoc", careciendo de una estructura formal, 
+                    lo que genera una alta dependencia de individuos específicos y sus conocimientos aislados. 
+                    Los procesos no están documentados y las iniciativas digitales surgen sin una visión estratégica clara.
+                    </p>
+
+                    <p><strong>Nivel 2 - Definido:</strong> Se han iniciado esfuerzos de estandarización básica y existen 
+                    algunas guías escritas para el uso de herramientas o seguridad, aunque su aplicación 
+                    sigue siendo inconsistente entre departamentos. La organización comienza a documentar 
+                    activos, pero la gestión aún no es transversal.
+                    </p>
+
+                    <p><strong>Nivel 3 - Establecido:</strong> Los procesos están formalizados y d
+                    ocumentados mediante procedimientos operativos estándar (SOP) que se aplican a 
+                    nivel institucional. Los silos departamentales comienzan a romperse gracias a una comunicación
+                    regular y una gestión integral que incluye fases obligatorias de retroalimentación de usuarios.
+                    </p>
+                    
+                    <p><strong>Nivel 4 - Maduro:</strong> La gobernanza es proactiva y está totalmente integrada 
+                    en la cultura y operación diaria, priorizando una mentalidad "digital-first" en toda la fuerza laboral.
+                    Se utilizan herramientas de monitoreo automático para el cumplimiento y se comparan los 
+                    resultados con estándares internacionales para liderar la innovación sectorial.
+                    </p>
+                </p>
+
+                <h4>Instrucciones de llenado</h4>
+                <p><strong>Escala (1–5) — Indique su grado de acuerdo con cada afirmación:</strong></p>
+                <p>
+                    1: Totalmente en desacuerdo<br>
+                    2: En desacuerdo<br>
+                    3: Neutral<br>
+                    4: De acuerdo<br>
+                    5: Totalmente de acuerdo
+                </p>
+                `
+                },
+    // FIN contenido de las instrucciones del desplegable en español
+
+               
+                
+    // Principio contenido de las recomendaciones en español
+                dims: ["Propósito", "Datos", "Metodología", "Herramientas", "Personas", "Procesos"],
+                levels_ind: ["Nivel 1: Explorador", "Nivel 2: Competente", "Nivel 3: Gestor", "Nivel 4: Maduro"],
+                levels_org: ["Nivel 1: Inicial 🔍", "Nivel 2: Definido ⚙️", "Nivel 3: Establecido 📈", "Nivel 4: Maduro 🏆"],
+                label_focus: "Enfoque",
+                label_strat: "Enfoque Estratégico",
+                matrix_ind: [
+                    { range: "De Explorador (1) a Competente (2)", focus: "Actualización y Síntesis de Fundamentos", tips: [
+                        "Se recomienda completar programas o cursos transversales que permitan dominar la arquitectura de los seis elementos del mundo digital.", 
+                        "Es fundamental profundizar en la comprensión de la Gobernanza Digital como una estructura de transparencia y responsabilidad institucional (Accountability).", 
+                        "Sería valioso dedicar tiempo a aprender sobre ética de datos y fundamentos de ciberseguridad para proteger la reputación institucional."] },
+                    { range: "De Competente (2) a Gestor (3)", focus: "Gestión de la Complejidad y Diseño de Sistemas", tips: [
+                        "Se sugiere explorar el diseño de flujos de trabajo donde los datos se compartan de forma ética y eficiente, buscando eliminar silos de información.", 
+                        "Podría ser de gran utilidad revisar la inclusión digital en los proyectos actuales para asegurar que la modernización no genere nuevas brechas administrativas.", 
+                        "Se recomienda trabajar en la aplicación de normas técnicas de manera que puedan convertirse en estándares reproducibles por el equipo."] },
+                    { range: "De Gestor (3) a Maduro (4)", focus: "Liderazgo, Innovación y Legado", tips: [
+                        "Se sugiere considerar la implementación de marcos de pruebas rápidas o prototipado, integrando el diseño centrado en el usuario (UCD).", 
+                        "Sería provechoso definir indicadores clave (KPIs) que permitan medir si la tecnología cumple con el propósito social y estratégico de la organización.", 
+                        "Se recomienda fortalecer las capacidades de gestión del cambio, buscando generar narrativas que faciliten el compromiso de los actores clave."] },
+                    { range: "Nivel Maduro (4) en adelante", focus: "Sostenibilidad y Mentoría de Alto Nivel", tips: [
+                        "Se sugiere considerar el rol de mentor para perfiles iniciales, compartiendo la visión sobre cómo conectar la estrategia con las soluciones tecnológicas.", 
+                        "Es recomendable mantenerse en constante formación sobre tendencias disruptivas, como la IA responsable, para anticipar retos en la gestión pública.", 
+                        "Se invita a trabajar en mecanismos que aseguren que la gobernanza sea una capacidad instalada y sostenible que trascienda la gestión actual."] }
+                ],
+
+                matrix_org: [
+                    { 
+                        range: "De Nivel 1 (Inicial) a Nivel 2 (Definido)", 
+                        focus: "Estandarización y Propiedad Institucional", 
+                        tips: [
+                            "Designar responsables claros, como un 'Líder Digital' o un comité pequeño, para evitar la dependencia de individuos aislados.",
+                            "Formalizar acuerdos, pasando de entendimientos verbales a guías escritas sencillas sobre el uso de herramientas y seguridad de datos.",
+                            "Realizar un inventario de activos, listando todas las herramientas digitales para entender qué elementos requieren gobernanza."
+                        ] 
+                    },
+                    { 
+                        range: "De Nivel 2 (Definido) a Nivel 3 (Establecido)", 
+                        focus: "Formalización y Ruptura de Silos", 
+                        tips: [
+                            "Crear Procedimientos Operativos Estándar (SOP) para la gestión de proyectos aplicables a todos los departamentos.",
+                            "Fortalecer la comunicación interna con reuniones periódicas entre las áreas de TI y las unidades de negocio.",
+                            "Formalizar la retroalimentación, implementando pruebas obligatorias con usuarios finales para validar nuevas iniciativas."
+                        ] 
+                    },
+                    { 
+                        range: "De Nivel 3 (Establecido) a Nivel 4 (Maduro)", 
+                        focus: "Automatización y Cultura Digital", 
+                        tips: [
+                            "Automatizar el cumplimiento con herramientas que monitoreen la salud del sistema y la privacidad de los datos.",
+                            "Invertir en cultura digital, fomentando una mentalidad 'digital-first' en toda la fuerza laboral.",
+                            "Realizar comparativas externas (Benchmarking) con estándares internacionales para liderar la innovación."
+                        ] 
+                    },
+                    { 
+                        range: "Nivel 4 (Maduro) en adelante", 
+                        focus: "Optimización y Evolución Predictiva", 
+                        tips: [
+                            "Auditar y refinar continuamente el marco de gobernanza para identificar y mitigar riesgos emergentes.",
+                            "Evolución basada en datos para predecir necesidades futuras y ajustar la estrategia proactivamente.",
+                            "Fomentar el liderazgo sectorial, compartiendo lecciones aprendidas con otras instituciones."
+                        ] 
+                    }
+                ],
+
+    //fin contenido de las recomendaciones en español           
+    
+    // Principio contenido de las preguntas en español
+
+                q_ind: [
+                    ["Entiendo cómo mi trabajo digital apoya los objetivos principales de mi organización.", "Soy capaz de explicar a mis colegas por qué realizamos iniciativas digitales (el propósito).", "Puedo transmitir la visión digital de la organización a colegas o interesados."],
+                    ["Aplico estándares de seguridad y privacidad a los datos que uso.", "Soy consciente y aplico principios éticos en el manejo de datos.", "Aseguro que los datos que utilizo son adecuados y fiables."],
+                    ["Entiendo de qué trata el desarrollo del diseño centrado en el usuario (UCD).", "Propongo ideas innovadoras o experimento con nuevas herramientas.", "Aprendo rápido de los errores en mis proyectos digitales."],
+                    ["Me siento capaz de recopilar información para entender la utilidad de una herramienta.", "Entiendo las implicaciones de gobernanza al seleccionar una herramienta.", "Entiendo conceptos básicos de interoperabilidad."],
+                    ["Promuevo el trabajo en equipo y la colaboración entre áreas.", "Promuevo activamente el concepto de inclusión digital.", "Me comunico eficazmente para ganar el apoyo de personas clave."],
+                    ["Busco mejoras para que los flujos de trabajo sean más rápidos.", "Entiendo claramente las reglas de gobernanza asociadas a mis tareas.", "Identifico oportunidades para automatizar flujos de trabajo."]
+                ],
+
+
+                q_org: [
+                    // Propósito
+                    [
+                        "Existe una estrategia o visión digital documentada, aunque sea simple o preliminar.",
+                        "La estrategia o visión digital se comunica a todo el personal que necesita utilizarla.",
+                        "Todo el personal entiende el propósito y el valor estratégico de los proyectos digitales de la organización."
+                    ],
+                    // Datos
+                    [
+                        "La organización ha definido medidas básicas para proteger sus sistemas y datos (ej. firewalls, respaldos regulares).",
+                        "Existen reglas claras y accesibles para el manejo de datos sensibles o personales según las leyes de privacidad.",
+                        "La organización realiza verificaciones básicas para asegurar la precisión y confiabilidad de los datos usados en decisiones oficiales."
+                    ],
+                    // Metodología
+                    [
+                        "La organización involucra a usuarios finales o ciudadanos para obtener retroalimentación antes de lanzar servicios digitales.",
+                        "La organización fomenta y tiene una forma básica de probar y compartir nuevas ideas de mejora digital.",
+                        "Los proyectos digitales siguen un enfoque paso a paso que permite realizar cambios rápidos y aprender."
+                    ],
+                    // Herramientas
+                    [
+                        "Existe una persona o grupo responsable de coordinar los sistemas digitales para asegurar que funcionen bien juntos.",
+                        "La organización documenta los costos y riesgos básicos (seguridad, mantenimiento) antes de comprar una nueva herramienta digital.",
+                        "Los principales sistemas digitales pueden compartir datos entre sí fácilmente cuando es necesario."
+                    ],
+                    // Personas
+                    [
+                        "Diferentes departamentos se reúnen y colaboran activamente en proyectos digitales compartidos.",
+                        "La organización piensa específicamente en cómo asegurar que sus servicios digitales sean accesibles para todos los ciudadanos.",
+                        "La organización comunica proactivamente los cambios y progresos de los proyectos digitales para generar confianza."
+                    ],
+                    // Procesos
+                    [
+                        "La organización mapea y simplifica sus procesos de trabajo existentes antes de intentar automatizarlos digitalmente.",
+                        "Las reglas básicas para gestionar herramientas e información digital (ej. dónde guardar archivos) son claras.",
+                        "La organización tiene reglas o criterios simples para decidir qué tareas deben automatizarse primero."
+                    ]
+                ],
+
+
+                
+            },
+
+    //fin contenido de las preguntas en español
+
+// fin seccion en español
+
+//Comienza seccion en inglés
+            en: {
+                browser_title: "ITCILO Toolkit - Digital Maturity",
+                txt_logo: "Toolkit",
+                alert_title: "Attention", alert_msg: "Please answer all questions.", alert_btn: "Ok",
+                nav_home: "Home", main_title: "Digital Maturity Assessment",
+                scale_short: ["Strongly disagree","Disagree","Neutral","Agree","Strongly agree"],
+                individual: "Individual Digital Maturity Assessment",
+                organizational: "Organizational Digital Maturity Assessment",
+                btn_ind: "Individual", btn_org: "Organizational", btn_calc: "Calculate", btn_reset: "Clear Form", btn_back: "Back", btn_home: "Back to Home", btn_back_report: "Back to Home", btn_back_to_survey: "Back to Assessment",
+                rep_title: "Maturity Report", pdp_title: "Strategic Roadmap:", print: "Print / PDF",
+                modal_title: "Include your name (optional)", modal_placeholder: "Your name...", modal_yes: "Yes", modal_no: "No", date_label: "Date",
+                guia_sum: { individual: "Individual Assessment Guide", organizational: "Organizational Assessment Guide" },
+                hub_title: "Choose an option",
+                hub_maturity: "Digital Maturity",
+                hub_library: "Tools and Library",
+                tools_title: "Tools and Library",
+                tools_subtitle: "Selected resources for your digital transformation",
+                tool1_title: "Library",
+                tool1_desc: "Documentation on digital governance and digital processes.",
+                tool2_title: "Tools",
+                tool2_desc: "A selection of tools for the digital world.",
+                library_main_title: "Library",
+                guides_subtitle: "Selected resources for your digital transformation",
+                cat1_title: "Academic Documents",
+                cat2_title: "Strategies and Reports",
+                btn_back_to_tools: "Back",
+                sw_main_title: "Tools Hub",
+                sw_announce: "Notice: This list of tools is for academic purposes only.",
+                sw_item1_tag: "Data & Surveys",
+                sw_item2_tag: "Reports",
+                sw_item3_tag: "Processes",
+                btn_sw_test: "Try it",
+                btn_sw_tuto: "Tutorial",
+                btn_sw_back: "Back",
+                sw_announcement_title: "👉 Notice",
+                sw_anounce: "Notice: This list of tools is for academic purposes only.",
+                sw_disclosure: "The tools and platforms listed in this toolkit are provided exclusively for academic and training purposes within the framework of this course. While these tools are widely recognized and have no known history of security risks that would preclude their use in a learning environment, the ITCILO and the course organizers do not officially endorse or mandate their use for professional, commercial, or institutional operations outside of this academic activity.<br><br>The decision to implement, deploy, or use any of these tools for purposes beyond this course is the sole responsibility of the participant and/or their respective organization. Users must independently evaluate the privacy policies, data security standards, and terms of service of each tool to ensure they align with their organization’s specific requirements and legal obligations.",
+                
+                
+    // INSTRUCCIONES DEL DESPLEGABLE en inglés
+                guia_full: {
+                individual: `
+                    <h4>Objective</h4>
+                    <p>This assessment is designed to identify your current level of digital skills and culture.</p>
+                    <p><strong>The goal of this questionnaire is to:</strong></p>
+                    <ul>
+                        <li>Measure current capacity to adopt and lead technological changes.</li>
+                        <li>Identify specific gaps in workflows and data management.</li>
+                        <li>Provide a roadmap with suggestions to advance to the next level.</li>
+                    </ul>
+                    <h4>The Spirit of the Assessment</h4>
+                    <p>This tool is a reflection exercise for professionals and leaders. Its goal is to map how your vision integrates with the six elements of the digital world (Purpose, Data, Methodology, Tools, People, and Processes), transforming knowledge into a solid governance capacity for the institution.</p>
+                    <h4>Maturity Levels</h4>
+                    <p><strong>Level 1: Explorer</strong> - Starting the journey. No previous experience; discovery phase. Priority: learning basics.</p>
+                    <p><strong>Level 2: Competent</strong> - Navigates technical terminology easily. Can facilitate standards and reproduce knowledge. Implements security and ethics.</p>
+                    <p><strong>Level 3: Manager</strong> - Integral knowledge of the six elements. Optimizes processes and leads teams ensuring technology meets strategic goals.</p>
+                    <p><strong>Level 4: Mature</strong> - Strategic reference. Defines organizational standards. Innovates in uncertainty and mentors others.</p>
+                    
+                    <h4>Instructions</h4>
+                    <p><strong>Scale (1-5) — Please indicate your level of agreement with each statement:</strong></p>
+                    <p>
+                        1: Strongly disagree<br>
+                        2: Disagree<br>
+                        3: Neutral<br>
+                        4: Agree<br>
+                        5: Strongly agree
+                    </p>
+                `,
+
+                organizational: `
+                    <h4>Goal</h4>
+                <p>This tool is a learning vehicle designed for institutions to identify fundamental strengths and gaps 
+                    within their digital governance framework. Its goal is to map how organizational structures and rules 
+                    integrate with the six elements of the digital world: purpose, data, methodology, tools, people, and processes. 
+                    Through this institutional reflection exercise, the aim is to support digital transformation actions 
+                    aligned with the institution's strategic objectives.</p>
+                
+                <h4>Maturity Levels</h4>
+                <div>
+                    <p><strong>Level 1 - Initial:</strong> Governance is reactive and "ad-hoc," lacking a formal structure, 
+                    which creates a high dependence on specific individuals and their isolated knowledge. 
+                    Processes are not documented, and digital initiatives emerge without a clear strategic vision.
+                    </p>
+
+                    <p><strong>Level 2 - Defined:</strong> Basic standardization efforts have begun, and some written 
+                    guidelines for tool usage or security exist, although their application remains inconsistent 
+                    across departments. The organization is starting to document assets, but management 
+                    is not yet cross-cutting.
+                    </p>
+
+                    <p><strong>Level 3 - Established:</strong> Processes are formalized and documented through 
+                    Standard Operating Procedures (SOPs) applied at an institutional level. 
+                    Departmental silos are beginning to break down due to regular communication and integrated 
+                    management that includes mandatory user feedback phases.
+                    </p>
+                    
+                    <p><strong>Level 4 - Mature:</strong> Governance is proactive and fully integrated into the 
+                    daily culture and operations, prioritizing a "digital-first" mindset across the entire workforce. 
+                    Automated monitoring tools are used for compliance, and results are benchmarked against 
+                    international standards to lead sector innovation.
+                    </p>
+                </div>
+
+                <h4>Completion Instructions</h4>
+                <p><strong>Scale (1–5) — Indicate your degree of agreement with each statement:</strong></p>
+                <p>
+                    1: Strongly disagree<br>
+                    2: Disagree<br>
+                    3: Neutral<br>
+                    4: Agree<br>
+                    5: Strongly agree
+                </p>
+                `
+
+                },
+    // fin INSTRUCCIONES DEL DESPLEGABLE en inglés
+
+    
+    // Principio contenido de las recomendaciones en español            
+                dims: ["Purpose", "Data", "Methodology", "Tools", "People", "Processes"],
+                levels_ind: ["Level 1: Explorer", "Level 2: Competent", "Level 3: Manager", "Level 4: Mature"],
+                levels_org: ["Level 1: Initial 🔍", "Level 2: Defined ⚙️", "Level 3: Developed 📈", "Level 4: Mature 🏆"],
+                label_focus: "Focus",
+                label_strat: "Strategic Focus",
+                matrix_ind: [
+                    { range: "From Explorer (1) to Competent (2)", focus: "Foundations Update and Synthesis", tips: ["Complete cross-cutting programs to master the architecture of the six digital elements.", "Deepen understanding of Digital Governance as a structure for transparency and accountability.", "Learn about data ethics and cybersecurity to protect institutional reputation."] },
+                    { range: "From Competent (2) to Manager (3)", focus: "Complexity Management and Systems Design", tips: ["Explore workflow design where data is shared ethically and efficiently, eliminating silos.", "Review digital inclusion in current projects to ensure modernization doesn't create new gaps.", "Work on applying technical norms so they can become reproducible standards."] },
+                    { range: "From Manager (3) to Mature (4)", focus: "Leadership, Innovation and Legacy", tips: ["Consider implementing rapid testing or prototyping frameworks (UCD).", "Define Key Performance Indicators (KPIs) to measure if technology fulfills strategic purposes.", "Strengthen change management capabilities and narratives to facilitate commitment."] },
+                    { range: "Level Mature (4) and above", focus: "Sustainability and High-Level Mentorship", tips: ["Take on a mentor role, sharing the vision on connecting strategy with technology.", "Maintain training on disruptive trends, such as responsible AI.", "Ensure governance is a sustainable capacity beyond current management."] }
+                ],
+    
+                matrix_org: [
+                    { 
+                        range: "From Level 1 (Initial) → Level 2 (Defined)", 
+                        focus: "Standardization and Institutional Ownership", 
+                        tips: [
+                            "Assign clear roles, such as a 'Digital Champion' or a small committee, to avoid dependence on isolated individuals.",
+                            "Formalize agreements by moving from verbal understandings to simple written guidelines for tool usage and data security.",
+                            "Conduct an asset inventory, listing all current digital tools and data sources to understand what requires governance."
+                        ] 
+                    },
+                    { 
+                        range: "From Level 2 (Defined) → Level 3 (Established)", 
+                        focus: "Formalization and Breaking Down Silos", 
+                        tips: [
+                            "Create Standard Operating Procedures (SOPs) for project management and data handling applicable to all departments.",
+                            "Strengthen internal communication with regular meetings between IT departments and business units to break operational silos.",
+                            "Formalize feedback by implementing mandatory end-user testing phases to validate each new digital initiative."
+                        ] 
+                    },
+                    { 
+                        range: "From Level 3 (Established) → Level 4 (Mature)", 
+                        focus: "Automation and Digital Culture", 
+                        tips: [
+                            "Automate compliance by exploring software tools that automatically monitor system health and data privacy.",
+                            "Invest in digital culture, shifting the focus from purely technical skills to a 'digital-first' mindset across the workforce.",
+                            "Perform external benchmarking by contrasting institutional performance with international standards to lead sector innovation."
+                        ] 
+                    },
+                    { 
+                        range: "Level 4 (Mature) and Beyond", 
+                        focus: "Optimization and Predictive Evolution", 
+                        tips: [
+                            "Continuously audit and refine the governance framework through periodic internal reviews to identify emerging risks.",
+                            "Data-driven evolution: use information collected by systems to predict future needs and adjust strategy proactively.",
+                            "Foster sector leadership by sharing lessons learned and established standards with other institutions."
+                        ] 
+                    }
+                ],        
+    
+    //fin contenido de las recomendaciones en inglés
+    
+    
+    // Principio contenido de las preguntas en inglés
+                q_ind: [
+                    ["I understand how my digital work supports my organization's main objectives.", "I can explain to my colleagues why we carry out digital initiatives.", "I can transmit the organization's digital vision to colleagues or stakeholders."],
+                    ["I apply security and privacy standards to the data I use.", "I am aware of and apply ethical principles in data management.", "I ensure the data I use is adequate and reliable."],
+                    ["I understand what user-centered design (UCD) development is about.", "I propose innovative ideas or experiment with new tools.", "I learn quickly from mistakes in my digital projects."],
+                    ["I feel capable of gathering information to understand a tool's utility.", "I understand governance implications when selecting a tool.", "I understand basic concepts of interoperability."],
+                    ["I promote teamwork and collaboration between areas.", "I actively promote the concept of digital inclusion.", "I communicate effectively to gain support from key stakeholders."],
+                    ["I look for improvements to make workflows faster.", "I clearly understand the governance rules associated with my tasks.", "I identify opportunities to automate workflows."]
+                ],
+
+                q_org: [
+                    // Purpose
+                    [
+                        "A digital strategy or vision exists and is documented, even if it is simple or preliminary.",
+                        "The digital strategy or vision is communicated to all staff who need to use it.",
+                        "All personnel involved in the organization's work generally understand the purpose and strategic value of the organization's digital projects."
+                    ],
+                    // Data
+                    [
+                        "The organization has defined basic measures to protect its IT systems and data from cyber threats (e.g., firewalls, regular backups).",
+                        "There are clear, accessible rules for handling sensitive or personal data to ensure compliance with privacy laws.",
+                        "The organization applies basic checks (e.g., cross-referencing) to ensure the accuracy and reliability of data used for decisions."
+                    ],
+                    // Methodology
+                    [
+                        "The organization involves end-users or citizens to get feedback and test digital services before they are fully launched.",
+                        "The organization encourages and has a basic way to try out and share successful new ideas for digital improvement.",
+                        "Digital projects follow a clear, step-by-step approach that allows for quick changes and learning."
+                    ],
+                    // Tools
+                    [
+                        "There is a designated person or group responsible for coordinating all major digital systems to ensure they work well together.",
+                        "The organization discusses and documents basic costs and risks (security, maintenance) before buying a new digital tool.",
+                        "Main digital systems can easily share data with each other when needed."
+                    ],
+                    // People
+                    [
+                        "Different departments regularly meet and collaborate actively on shared digital projects.",
+                        "The organization specifically thinks about how to ensure its digital services are accessible to all citizens (e.g., poor, remote areas).",
+                        "The organization proactively communicates changes and progress of digital projects to build trust among staff."
+                    ],
+                    // Processes
+                    [
+                        "The organization maps and simplifies its existing work processes before trying to automate them digitally.",
+                        "The basic rules for managing digital tools and information (e.g., where to save files) are clear and accessible.",
+                        "The organization has simple rules or criteria for deciding which tasks should be automated first."
+                    ]
+                ]
+
+    //fin contenido de las preguntas en inglés
+               
+            },
+
+//fin seccion en ingles
+
+//comienza seccion en frances
+            fr: {
+                browser_title: "ITCILO Boîte à Outils - Maturité Numérique",
+                txt_logo: "Boîte à Outils",
+                alert_title: "Attention", alert_msg: "Veuillez répondre à toutes les questions.", alert_btn: "Ok",
+                nav_home: "Accueil", main_title: "Évaluation de la Maturité Numérique",
+                scale_short: ["Tout à fait en désaccord","En désaccord","Neutre","D'accord","Tout à fait d'accord"],
+                individual: "Évaluation de la Maturité Numérique Individuelle",
+                organizational: "Évaluation de la Maturité Numérique Organisationnelle",
+                btn_ind: "Individuel", btn_org: "Organisationnel", btn_calc: "Calculer", btn_reset: "Effacer", btn_back: "Retour", btn_home: "Accueil", btn_back_report: "Accueil", btn_back_to_survey: "Retour au Questionnaire",
+                rep_title: "Rapport de Maturité", pdp_title: "Feuille de Route Stratégique :", print: "Imprimer / PDF",
+                modal_title: "Inclure votre nom (optionnel)", modal_placeholder: "Votre nom...", modal_yes: "Oui", modal_no: "Non", date_label: "Date",
+                guia_sum: { individual: "Guide de l'Évaluation Individuelle", organizational: "Guide de l'Évaluation Organisationnelle" },
+                hub_title: "Choisissez une option",
+                hub_maturity: "Maturité Numérique",
+                hub_library: "Outils et Bibliothèque",
+                tools_title: "Outils et Bibliothèque",
+                tools_subtitle: "Ressources sélectionnées pour votre transformation numérique",
+                tool1_title: "Bibliothèque",
+                tool1_desc: "Documentation sur la gouvernance numérique et les processus numériques.",
+                tool2_title: "Outils",
+                tool2_desc: "Quelques outils pour le monde numérique.",
+                library_main_title: "Bibliothèque",
+                guides_subtitle: "Ressources sélectionnées pour votre transformation numérique",
+                cat1_title: "Documents Académiques",
+                cat2_title: "Stratégies et Rapports",
+                btn_back_to_tools: "Retour",
+                sw_main_title: "Centre d'Outils",
+                sw_announce: "Avis : Cette liste d'outils est destinée uniquement à des fins académiques.",
+                sw_item1_tag: "Données et Enquêtes",
+                sw_item2_tag: "Rapports",
+                sw_item3_tag: "Processus",
+                btn_sw_test: "Tester",
+                btn_sw_tuto: "Tutoriel",
+                btn_sw_back: "Retour",
+                sw_announcement_title: "👉 Annonce",
+                sw_disclosure:" Les outils et plateformes répertoriés dans cette boîte à outils sont fournis exclusivement à des fins académiques et de formation dans le cadre de ce cours. Bien que ces outils soient largement reconnus et ne présentent aucun antécédent connu de risques de sécurité empêchant leur utilisation dans un environnement d'apprentissage, l'ITCILO et los organisateurs du cours ne soutiennent ni n'imposent officiellement leur utilisation pour des opérations professionnelles, commerciales ou institutionnelles en dehors de cette activité académique. <br><br>La décision d'implémenter, de déployer ou d'utiliser l'un de ces outils à des fins allant au-delà de ce cours relève de la seule responsabilité du participant et/ou de son organisation respective. Les utilisateurs doivent évaluer de manière indépendante les politiques de confidentialité, les normes de sécurité des données et les conditions de service de chaque outil afin de s'assurer qu'ils sont conformes aux exigences spécifiques et aux obligations légales de leur organisation.",
+
+
+
+    // INSTRUCCIONES DEL DESPLEGABLE en francés
+
+                guia_full: {
+                individual: `
+                    <h4>Objectif</h4>
+                    <p>Cette évaluation est conçue pour identifier votre niveau actuel de compétences et de culture au sein du monde numérique.</p>
+                    <p><strong>L'objectif de ce questionnaire est de :</strong></p>
+                    <ul>
+                        <li>Mesurer la capacité actuelle à adopter et à mener des changements technologiques.</li>
+                        <li>Identifier les lacunes spécifiques dans les flux de travail et la gestion des données.</li>
+                        <li>Fournir une feuille de route avec des suggestions pour progresser.</li>
+                    </ul>
+                    <h4>L'Esprit de l'Évaluation</h4>
+                    <p>Cet outil est un exercice de réflexion pour les professionnels et les leaders. Son objectif est de cartographier comment votre vision s'intègre aux six éléments du monde numérique (Objectif, Données, Méthodologie, Outils, Personnes et Processus).</p>
+                    <h4>Niveaux de Maturité</h4>
+                    <p><strong>Niveau 1 : Explorateur</strong> - Début du parcours. Aucune expérience préalable ; phase de découverte. Priorité : apprendre les bases.</p>
+                    <p><strong>Niveau 2 : Compétent</strong> - Navigue facilement dans la terminologie technique. Peut faciliter l'application des normes. Applique la sécurité et l'éthique.</p>
+                    <p><strong>Niveau 3 : Gestionnaire</strong> - Connaissance intégrale des six éléments. Optimise les processus et dirige les équipes.</p>
+                    <p><strong>Niveau 4 : Mature</strong> - Référence stratégique. Définit les standards de l'organisation. Innove et accompagne les autres.</p>
+                    <h4>Instructions</h4>
+                    <p><strong>Échelle (1-5) — Veuillez indiquer votre degré d'accord avec chaque affirmation :</strong></p>
+                    <p>
+                        1 : Tout à fait en désaccord<br>
+                        2 : En désaccord<br>
+                        3 : Neutre<br>
+                        4 : D'accord<br>
+                        5 : Tout à fait d'accord
+                    </p>
+                    `,
+
+                organizational: `
+                <h4>Objectif</h4>
+                <p>Cet outil est un vecteur d'apprentissage conçu pour permettre aux institutions d'identifier 
+                    les forces et les lacunes fondamentales de leur cadre de gouvernance numérique[cite: 111, 122]. 
+                    Son objectif est de cartographier la manière dont les structures et les règles de l'organisation 
+                    s'intègrent aux six éléments du monde numérique : objectif, données, méthodologie, outils, 
+                    personnes et processus[cite: 111]. À travers cet exercice de réflexion institutionnelle, 
+                    l'objectif est de soutenir des actions de transformation numérique alignées sur les objectifs 
+                    stratégiques de l'institution[cite: 111].</p>
+                
+                <h4>Niveaux de Maturité</h4>
+                <div>
+                    <p><strong>Niveau 1 - Initial :</strong> La gouvernance est réactive et « ad hoc », manquant d'une 
+                    structure formelle, ce qui génère une forte dépendance vis-à-vis d'individus spécifiques et 
+                    de leurs connaissances isolées[cite: 148]. Les processus ne sont pas documentés et les initiatives 
+                    numériques surgissent sans vision stratégique claire[cite: 148].
+                    </p>
+
+                    <p><strong>Niveau 2 - Défini :</strong> Des efforts de standardisation de base ont commencé et il existe 
+                    quelques guides écrits pour l'utilisation des outils ou la sécurité, bien que leur application 
+                    reste incohérente entre les départements[cite: 149, 156]. L'organisation commence à documenter 
+                    ses actifs, mais la gestion n'est pas encore transversale[cite: 149, 157].
+                    </p>
+
+                    <p><strong>Niveau 3 - Établi :</strong> Les processus sont formalisés et documentés par des 
+                    procédures opérationnelles standard (SOP) appliquées au niveau institutionnel[cite: 150, 159]. 
+                    Les silos départementaux commencent à se briser grâce à une communication régulière et une 
+                    gestion intégrale incluant des phases obligatoires de retour d'expérience des utilisateurs[cite: 150, 160, 161].
+                    </p>
+                    
+                    <p><strong>Niveau 4 - Mature :</strong> La gouvernance est proactive et totalement intégrée 
+                    à la culture et aux opérations quotidiennes, privilégiant une mentalité « numérique d'abord » 
+                    pour l'ensemble du personnel[cite: 151, 164]. Des outils de surveillance automatique sont utilisés 
+                    pour la conformité et les résultats sont comparés aux normes internationales pour mener 
+                    l'innovation sectorielle[cite: 163, 165].
+                    </p>
+                </div>
+
+                <h4>Instructions de remplissage</h4>
+                <p><strong>Échelle (1-5) — Indiquez votre degré d'accord avec chaque affirmation :</strong> [cite: 121]</p>
+                <p>
+                    1 : Fortement en désaccord<br>
+                    2 : En désaccord<br>
+                    3 : Neutre<br>
+                    4 : D'accord<br>
+                    5 : Fortement d'accord
+                </p>
+                `
+                },
+                
+    // fin INSTRUCCIONES DEL DESPLEGABLE en francés
+                               
+ 
+    
+        // Principio recomendaciones en frances            
+                dims: ["Objectif", "Données", "Méthodologie", "Outils", "Personnes", "Processus"],
+                levels_ind: ["Niveau 1 : Explorateur", "Niveau 2 : Compétent", "Niveau 3 : Gestionnaire", "Niveau 4 : Mature"],
+                levels_org: ["Niveau 1 : Initial 🔍", "Niveau 2 : Défini ⚙️", "Niveau 3 : Établi 📈", "Niveau 4 : Mature 🏆"],
+                label_focus: "Approche",
+                label_strat: "Approche Stratégique",
+                               
+                matrix_ind: [
+                    { range: "D'Explorateur (1) à Compétent (2)", focus: "Mise à jour et Synthèse des Fondamentaux", tips: ["Suivre des programmes transversaux pour maîtriser l'architecture des six éléments numériques.", "Approfondir la compréhension de la Gouvernance Numérique et de la redevabilité.", "Se former à l'éthique des données et à la cybersécurité pour protéger l'institution."] },
+                    { range: "De Compétent (2) à Gestionnaire (3)", focus: "Gestion de la Complexité y Conception de Systèmes", tips: ["Explorer la conception de flux de travail éthiques, en éliminant les silos d'information.", "Réviser l'inclusion numérique dans les projets actuels para éviter de nouvelles fractures.", "Travailler sur l'application des normes técnicas para en faire des standards."] },
+                    { range: "De Gestionnaire (3) à Mature (4)", focus: "Leadership, Innovation et Héritage", tips: ["Mettre en œuvre des cadres de tests rapides (UCD).", "Définir des indicateurs clés (KPI) para mesurer si la technologie répond aux objectifs.", "Renforcer les capacités de gestion du changement et les récits engageants."] },
+                    { range: "Niveau Mature (4) et au-delà", focus: "Durabilité et Mentorat de Haut Niveau", tips: ["Endosser un rôle de mentor, en partageant la vision sur la stratégie et la technologie.", "Se former en continu aux tendances, comme l'IA responsable.", "Assurer que la gouvernance soit une capacité durable au-delà de la gestion actuelle."] }
+                ],
+
+                matrix_org: [
+                    { 
+                        range: "Du Niveau 1 (Initial) → Niveau 2 (Défini)", 
+                        focus: "Standardisation et Responsabilité Institutionnelle", 
+                        tips: [
+                            "Désigner des responsables clairs, comme un « Champion Numérique », pour éviter la dépendance envers des individus isolés.",
+                            "Formaliser les accords en passant d'ententes verbales à des directives écrites simples sur l'utilisation des outils et la sécurité.",
+                            "Réaliser un inventaire des actifs, en listant tous les outils et sources de données pour comprendre ce qui nécessite une gouvernance."
+                        ] 
+                    },
+                    { 
+                        range: "Du Niveau 2 (Défini) → Niveau 3 (Établi)", 
+                        focus: "Formalisation et Décloisonnement des Silos", 
+                        tips: [
+                            "Créer des Procédures Opérationnelles Standard (SOP) pour la gestion de projet applicables à tous les départements.",
+                            "Renforcer la communication interne avec des réunions régulières entre les services informatiques (TI) et les unités métier.",
+                            "Formaliser les retours en mettant en œuvre des phases de tests obligatoires avec les utilisateurs finaux."
+                        ] 
+                    },
+                    { 
+                        range: "Du Niveau 3 (Établi) → Niveau 4 (Mature)", 
+                        focus: "Automatisation et Culture Numérique", 
+                        tips: [
+                            "Automatiser la conformité avec des outils qui surveillent automatiquement la santé du système et la confidentialité des données.",
+                            "Investir dans la culture numérique, en passant des compétences techniques à une mentalité « numérique d'abord » pour tout le personnel.",
+                            "Analyse comparative (Benchmarking) : comparer les performances aux normes internationales pour mener l'innovation sectorielle."
+                        ] 
+                    },
+                    { 
+                        range: "Niveau 4 (Mature) et au-delà", 
+                        focus: "Optimisation et Évolution Prédictive", 
+                        tips: [
+                            "Auditer et affiner continuellement le cadre de gouvernance numérique pour identifier les risques émergents.",
+                            "Évolution pilotée par les données : utiliser les informations pour prédire les besoins futurs et ajuster la stratégie.",
+                            "Favoriser le leadership sectoriel en partageant les leçons apprises avec d'autres institutions de l'écosystème."
+                        ] 
+                    }
+                ],
+
+        //fin recomendaciones en frances
+
+        // Principio contenido de las preguntas en frances
+
+                q_ind: [
+                    ["Je comprends comment mon travail numérique soutient les objectifs de mon organisation.", "Je peux expliquer à mes collègues pourquoi nous menons des initiatives numériques.", "Je peux transmettre la vision numérique de l'organisation aux parties prenantes."],
+                    ["J'applique les normes de sécurité et de confidentialité aux données que j'utilise.", "Je connais et j'applique les principes éthiques dans la gestion des données.", "Je m'assure que les données que j'utilise sont adéquates et fiables."],
+                    ["Je comprends en quoi consiste le design centré sur l'utilisateur (UCD).", "Je propose des idées innovantes ou j'expérimente de nouveaux outils.", "J'apprends rapidement des erreurs dans mes projets numériques."],
+                    ["Je me sens capable de recueillir des informations pour comprendre l'utilité d'un outil.", "Je comprends les implications de gouvernance lors de la sélection d'un outil.", "Je comprends les concepts de base de l'interopérabilité."],
+                    ["Je favorise le travail d'équipe et la collaboration entre les services.", "Je promeus activement le concept d'inclusion numérique.", "Je communique efficacement pour obtenir le soutien des acteurs clés."],
+                    ["Je cherche des améliorations para accélérer les flux de travail.", "Je comprends les règles de gouvernance associées à mes tâches.", "J'identifie les opportunités d'automatisation des flux de travail."]
+                ],
+                
+                q_org: [
+                    // Objectif (Propósito)
+                    [
+                        "Une stratégie ou vision numérique existe et est documentée, même si elle est simple ou préliminaire.",
+                        "La stratégie ou vision numérique est communiquée à tout le personnel qui doit l'utiliser.",
+                        "Tout le personnel comprend l'objectif et la valeur stratégique des projets numériques de l'organisation."
+                    ],
+                    // Données (Datos)
+                    [
+                        "L'organisation a défini des mesures de base pour protéger ses systèmes et données (ex. pare-feu, sauvegardes).",
+                        "Il existe des règles claires et accessibles pour la manipulation des données sensibles conformément aux lois sur la vie privée.",
+                        "L'organisation effectue des vérifications de base pour garantir l'exactitude des données utilisées pour les décisions officielles."
+                    ],
+                    // Méthodologie (Metodología)
+                    [
+                        "L'organisation implique les utilisateurs finaux ou les citoyens pour tester les services numériques avant leur lancement.",
+                        "L'organisation encourage et possède un moyen de tester et de partager de nouvelles idées d'amélioration numérique.",
+                        "Les projets numériques suivent une approche étape par étape qui permet des changements rapides et l'apprentissage."
+                    ],
+                    // Outils (Herramientas)
+                    [
+                        "Il existe une personne ou un groupe responsable de la coordination des systèmes numériques pour garantir leur interopérabilité.",
+                        "L'organisation documente les coûts et risques de base (sécurité, maintenance) avant d'acheter un nouvel outil.",
+                        "Les principaux systèmes numériques peuvent facilement partager des données entre eux si nécessaire."
+                    ],
+                    // Personnes (Personas)
+                    [
+                        "Différents départements se réunissent et collaborent activement sur des projets numériques partagés.",
+                        "L'organisation réfléchit spécifiquement à l'accessibilité de ses services numériques pour tous les citoyens.",
+                        "L'organisation communique proactivement sur les progrès des projets numériques pour instaurer la confiance."
+                    ],
+                    // Processus (Procesos)
+                    [
+                        "L'organisation cartographie et simplifie ses processus de travail avant de tenter de les automatiser.",
+                        "Les règles de base pour gérer les outils et l'information numérique (ex. où sauvegarder les fichiers) sont claires.",
+                        "L'organisation a des critères simples pour décider quelles tâches doivent être automatisées en priorité."
+                    ]
+                ],
+                            
+                               
+                
+            }
+        };
+    // fin contenido de las preguntas en frances
+
+//fin seccion en frances
+
+
+
+        let currentMode = 'individual';
+
+        // 1. GESTIÓN DE PANTALLAS
+        function showSection(sectionId) {
+            // 1. Escondemos absolutamente todas las secciones primero
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            // 2. Quitamos el 'hidden' solo a la sección que queremos ver
+            const activeSection = document.getElementById(sectionId);
+            if (activeSection) {
+                activeSection.classList.remove('hidden');
+            }
+
+            // 3. Opcional: Volver al inicio de la página (scroll to top)
+            window.scrollTo(0, 0);
+    }
+
+        // 2. CAMBIO DE IDIOMA (Con persistencia de respuestas y colores azules)
+        function changeLanguage() {
+            const langPicker = document.getElementById('langPicker');
+            if (!langPicker) return;
+            
+            const lang = langPicker.value;
+            localStorage.setItem('selectedLang', lang);
+            const t = content[lang] || content.es;
+
+            // Traducir textos estáticos
+            const ids = [
+                'hub-title', 'hub-maturity', 'hub-library', 'nav-home', 'main-title', 
+                'btn-ind', 'btn-org', 'btn-calc', 'btn-reset', 'btn-back', 'btn-home', 
+                'rep-title', 'pdp-title', 'btn-back-report', 'btn-back-to-survey', 
+                'print', 'modal-title', 'modal-yes', 'modal-no', 
+                'alert-title', 'alert-msg', 'alert-btn','tools-title', 'tools-subtitle', 'tool1-title', 'tool1-desc', 
+                'tool2-title', 'tool2-desc', 'btn-tools-back','sw-announcement-title','sw-disclosure', 'sw-announce','library-main-title', 'guides-subtitle', 'cat1-title', 
+                'cat2-title', 'btn-back-to-tools','sw-main-title', 
+                'sw-announce','sw-item1-tag','sw-item2-tag','sw-item3-tag',
+                'btn-sw-test1', 'btn-sw-test2', 'btn-sw-test3','btn-sw-tuto1', 'btn-sw-tuto2', 'btn-sw-tuto3', 'btn-sw-back',
+            ];
+             
+            document.title = t.browser_title;
+           
+            ids.forEach(id => {
+                const el = document.getElementById('txt-' + id);
+                const key = id.replace(/-/g, '_');
+                
+                // CAMBIO: Usamos innerHTML para que reconozca etiquetas como <br>
+                if(el && t[key]) el.innerHTML = t[key]; 
+            });
+
+
+            const surveyScreen = document.getElementById('survey-screen');
+            const reportScreen = document.getElementById('report-screen');
+
+            // SI ESTÁ EN EL CUESTIONARIO: Guardar respuestas antes de traducir
+            if (surveyScreen && !surveyScreen.classList.contains('hidden')) {
+                const form = document.getElementById('quiz-form');
+                const currentData = new FormData(form); // Guardamos lo que el usuario marcó
+                
+                initSurvey(currentMode); // Esto redibuja las preguntas en el nuevo idioma
+                
+                // RESTAURAR lo marcado
+                for (let [key, value] of currentData.entries()) {
+                    const input = document.querySelector(`input[name="${key}"][value="${value}"]`);
+                    if (input) {
+                        input.checked = true;
+                        input.closest('.q-card').classList.add('selected');
+                    }
+                }
+            } 
+            // SI ESTÁ EN EL REPORTE: Solo recalcular con el nuevo idioma
+            else if (reportScreen && !reportScreen.classList.contains('hidden')) {
+                calculate(true); 
+            }
+        }
+
+        // EJECUCIÓN AL CARGAR LA PÁGINA
+        document.addEventListener('DOMContentLoaded', () => {
+            // Recuperar idioma guardado o usar español por defecto
+            const savedLang = localStorage.getItem('selectedLang') || 'es';
+            
+            const langPicker = document.getElementById('langPicker');
+            if (langPicker) {
+                langPicker.value = savedLang;
+            }
+
+            // DISPARAR LA TRADUCCIÓN INICIAL
+            changeLanguage(); 
+        });
+
+        // 3. INICIALIZAR CUESTIONARIO
+        function initSurvey(mode) {
+            currentMode = mode;
+            const lang = document.getElementById('langPicker').value;
+            const t = content[lang] || content.es;
+            
+            document.getElementById('survey-title').innerText = t[mode];
+            
+            const guiaCont = document.getElementById('guia-container');
+            if(guiaCont && t.guia_sum) {
+                guiaCont.innerHTML = `<details class="guia-contenedor"><summary>${t.guia_sum[mode]}</summary><div class="guia-contenido">${t.guia_full[mode]}</div></details>`;
+            }
+
+            const form = document.getElementById('quiz-form');
+            form.innerHTML = '';
+            const questions = (mode === 'individual') ? t.q_ind : t.q_org;
+            
+            t.dims.forEach((dim, dIdx) => {
+                const h = document.createElement('div'); 
+                h.className = 'dim-header'; 
+                h.innerText = dim;
+                form.appendChild(h);
+                
+                questions[dIdx].forEach((q, qIdx) => {
+                    const card = document.createElement('div'); 
+                    card.className = 'q-card';
+                    card.innerHTML = `
+                        <span class="q-text">${q}</span>
+                        <div class="likert">
+                            ${[1,2,3,4,5].map(v => `
+                                <label>
+                                    <input type="radio" name="d${dIdx}q${qIdx}" value="${v}" onchange="this.closest('.q-card').classList.add('selected')">
+                                    <span>${v}</span>
+                                </label>`).join('')}
+                        </div>`;
+                    form.appendChild(card);
+                });
+            });
+
+            showSection('survey-screen');
+        }
+
+        // 4. CÁLCULO Y REPORTE (Color Azul y validación)
+        function calculate(isRefresh = false) {
+            const form = document.getElementById('quiz-form');
+            const lang = document.getElementById('langPicker').value;
+            const t = content[lang] || content.es;
+            
+            const fd = new FormData(form);
+            let totalAnswered = 0;
+            for(let d=0; d<6; d++) {
+                for(let q=0; q<3; q++) {
+                    if(fd.get(`d${d}q${q}`)) totalAnswered++;
+                }
+            }
+
+            if (totalAnswered < 18) {
+                if (!isRefresh) {
+                    const modal = document.getElementById('alert-modal');
+                    if (modal) modal.classList.remove('hidden');
+                    else alert(t.alert_msg || "Incompleto");
+                }
+                return; 
+            }
+            
+            let totalAvgSum = 0;
+            const dimBox = document.getElementById('res-dimensions'); 
+            const adviceList = document.getElementById('res-advice-list');
+            
+            dimBox.innerHTML = '';
+            adviceList.innerHTML = '';
+
+            for(let d=0; d<6; d++) {
+                let dSum = 0;
+                for(let q=0; q<3; q++) {
+                    const val = fd.get(`d${d}q${q}`);
+                    dSum += val ? parseInt(val) : 0;
+                }
+                let dAvg = dSum / 3;
+                totalAvgSum += dAvg;
+
+                // BARRAS EN COLOR AZUL PROFESIONAL.El primer color es el de fondo, el segundo el de relleno
+                dimBox.innerHTML += `
+                    <div style="margin-bottom:15px;">
+                        <strong style="display:block; margin-bottom:5px;">${t.dims[d]}: ${dAvg.toFixed(1)}</strong>
+                        <div style="background:#edf2f7; height:12px; border-radius:6px; width:100%; overflow:hidden;">
+                            <div style="width:${dAvg * 20}%; background-color:#002AB0; height:100%; border-radius:6px; transition: width 0.5s;"></div>
+                        </div>
+                    </div>`;
+            }
+
+            const finalAvg = totalAvgSum / 6;
+            document.getElementById('res-score').innerText = finalAvg.toFixed(1);
+            const levelIdx = finalAvg < 2.0 ? 0 : finalAvg < 3.5 ? 1 : finalAvg < 4.5 ? 2 : 3;
+            document.getElementById('res-level').innerText = (currentMode === 'individual' ? t.levels_ind : t.levels_org)[levelIdx];
+
+            const matrix = (currentMode === 'individual' ? t.matrix_ind : t.matrix_org);
+            const rec = matrix[levelIdx];
+
+            if (rec) {
+                // CONSEJOS EN AZUL CLARO
+                adviceList.innerHTML = `
+                    <div style="padding:15px; border-left:4px solid #2b6cb0; background:#ebf8ff; border-radius:0 8px 8px 0;">
+                        <strong style="color:#2c5282; font-size:1.1rem; display:block; margin-bottom:8px;">${rec.range || ''}</strong>
+                        <p><strong>${currentMode === 'individual' ? t.label_focus : t.label_strat}:</strong> ${rec.focus}</p>
+                        <ul style="margin-top:10px; padding-left:20px;">
+                            ${rec.tips.map(tip => `<li style="margin-bottom:5px;">${tip}</li>`).join('')}
+                        </ul>
+                    </div>`;
+            }
+
+            showSection('report-screen');
+        }
+
+        // NUEVA FUNCIÓN PARA EL BOTÓN REGRESAR
+        function returnToSurvey() {
+            showSection('survey-screen');
+        }
+
+        // 5. UTILIDADES (Reset y PDF)
+        function resetForm() {
+            document.getElementById('quiz-form').reset();
+            document.querySelectorAll('.q-card').forEach(c => c.classList.remove('selected'));
+        }
+
+        function showPrintModal() {
+            document.getElementById('print-modal').classList.remove('hidden');
+        }
+
+        function closeAlert() {
+            document.getElementById('alert-modal').classList.add('hidden');
+        }
+
+        function handlePrint(includeName) {
+            const lang = document.getElementById('langPicker').value;
+            const t = content[lang] || content.es;
+            const name = document.getElementById('user-name').value;
+            const date = new Date().toLocaleDateString();
+            
+            let headerText = `${t.date_label || 'Fecha'}: ${date}`;
+            if(includeName && name.trim() !== "") headerText = `${name} | ${headerText}`;
+            
+            document.getElementById('print-header').innerText = headerText;
+            document.getElementById('print-modal').classList.add('hidden');
+            
+            // Timeout para asegurar que el modal se cierre antes de capturar la pantalla
+            setTimeout(() => { window.print(); }, 500);
+        }
+
+
+        
+
+       
+    </script>
+</body>
+</html>
