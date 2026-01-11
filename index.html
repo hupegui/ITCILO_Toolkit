@@ -1,15 +1,10 @@
 <head>
     <meta charset="UTF-8">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
+   
     <title>Caja de Herramientas - Madurez Digital</title>
-    <meta name="description" content="Herramienta de evaluación de madurez digital desarrollada en el marco del programa de gobernanza digital del ITCILO.">
-    <meta property="og:title" content="Evaluación de Madurez Digital - ITCILO">
-    <meta property="og:description" content="Mide tu nivel de madurez digital y accede a recursos de gobernanza.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://tu-usuario.github.io/madurez-digital/logo.png">
-
     <style>
         :root {
             --purple: #005EB8;
@@ -18,17 +13,11 @@
             --shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        /* Recomendación 3: Consolidación de Identidad (Ajustes para iPhone en selectores base) */
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            font-family: 'Segoe UI', system-ui, sans-serif; 
-            -webkit-tap-highlight-color: transparent; /* Elimina destello en iOS */
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg); color: #333; line-height: 1.6; font-size: 18px; }
 
-        /* --- AJUSTE LOGO: ESTILO PARA LA IMAGEN PNG --- */
+
+         /* --- AJUSTE LOGO: ESTILO PARA LA IMAGEN PNG --- */
         .logo-img {
             height: 45px; /* Altura ajustada para que coincida con tu diseño */
             width: auto;
@@ -37,7 +26,6 @@
         /* --- FIN ESTILO LOGO --- */
 
 
-        body { background-color: var(--bg); color: #333; line-height: 1.6; font-size: 18px; }
 
         header { 
             background: white; 
@@ -48,9 +36,11 @@
             border-bottom: 1px solid #e0e0e0; 
             position: sticky; 
             top: 0; 
-            z-index: 100; 
+            z-index: 100;
+             
         }
         
+       
         /* Ajuste del encabezado para dos filas */
         .header-top {
             display: flex;
@@ -59,13 +49,16 @@
             width: 100%;
         }
 
+        
         .header-bottom {
             display: flex;
             align-items: center;
             border-top: 1px solid #eee;
             padding-top: 10px;
             margin-top: 5px;
+            
         }
+
 
         /* Regla para el logo de ITCILO */
         .itcilo-svg {
@@ -74,7 +67,7 @@
             display: block;
         }
 
-        /* Estilo para el botón de Inicio (optimizado para iPhone) */
+         /* Estilo para el botón de Inicio (optimizado para iPhone) */
         .logo { 
             display: flex;
             align-items: center;
@@ -82,33 +75,141 @@
             font-weight: bold; 
             color: var(--purple); 
             font-size: 1.4rem; 
-            text-decoration: none; 
             cursor: pointer; 
-            -webkit-tap-highlight-color: transparent; 
+            /* ESTO ES PARA IPHONE */
+            -webkit-tap-highlight-color: rgba(0,0,0,0); /* Quita el destello gris */
+            user-select: none; /* Evita que se seleccione el texto al tocar */
+            touch-action: manipulation; /* Optimiza el toque para evitar retrasos */
+            pointer-events: auto !important;
+            position: relative; 
+            z-index: 102; 
         }
 
-        /* Ajuste de inputs para evitar zoom en iOS (mínimo 16px) */
-        input, select, textarea {
-            font-size: 16px !important;
+
+        
+
+        /* ESTILO GLOBAL PARA TODOS LOS H1 */
+        h1 {
+            color: var(--purple);       /* Tu azul institucional */
+            font-size: 2.5rem;          /* Más grande que el h2 */
+            font-weight: 600;           /* Más grueso para resaltar */
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: -1px;       /* Un toque moderno: letras un poco más juntas */
+        }
+       
+              
+        /* ESTILO GLOBAL PARA TODOS LOS H2 */
+        h2 {
+            color: var(--purple) !important;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            font-family: 'Segoe UI', sans-serif;
         }
 
-        input[type="range"] {
-            -webkit-appearance: none; 
-            width: 100%;
-            height: 12px;
-            background: #ddd;
-            border-radius: 6px;
+       
+        /* UNIFICACIÓN DE TARJETAS PARA HERRAMIENTAS Y BIBLIOTECA */
+        .resource-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--purple); /* Usamos tu variable --purple */
+            margin-bottom: 20px;
+            text-align: left;
+            transition: transform 0.2s;
         }
 
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            background: #4CAF50;
-            border-radius: 50%;
-            cursor: pointer;
+        .resource-card:hover {
+            transform: translateY(-3px);
         }
+
+        .resource-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .resource-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #222;
+        }
+
+        .resource-tag {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        /* Ajuste para que los botones de las herramientas no sean gigantes */
+        .btn-sm {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            width: auto;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        #tools-screen p#txt-tools-subtitle {
+        margin-bottom: 40px;   /* Controla el espacio hacia abajo (antes de las tarjetas) */
+        color: #666;           /* El color gris. Si quieres que sea más claro usa #999 */
+        font-size: 1.1rem;     /* El tamaño de la letra */
+        font-weight: 400;      /* Asegura que no esté en negrilla */
+        line-height: 1.4;      /* Mejora el espacio entre líneas si el texto es largo */
+        letter-spacing: 0.5px; /* Separa un poco las letras para un look más moderno */
+        }
+
+       
+        /* Ajuste para que las tarjetas de Biblioteca/Herramientas se vean mejor */
+        #tools-screen .resource-card {
+            padding: 30px 20px;       /* Bajamos un poco el padding para que no se pegue al borde superior */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* CAMBIO CLAVE: Alinea todo al inicio (arriba) */
+            min-height: 180px; 
+        }
+
+
+        /* Ajuste para el bloque de Anuncio */
+        .guia-contenedor {
+            border: 2px solid var(--purple) !important;
+            background-color: white !important;
+            margin-bottom: 40px !important;
+        }
+
+        /* Botón de navegación principal (Regresar) */
+        .btn-nav-full {
+            display: block;      /* Ocupa toda la fila */
+            width: 100%;         /* Asegura el 100% del ancho del contenedor */
+            padding: 12px;
+            margin-top: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .main-footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: #666;
+            
+        }
+
+        .main-footer a {
+            color: var(--purple);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .main-footer a:hover {
+            text-decoration: underline;
+        }
+
 
         #langPicker { padding: 6px; border-radius: 6px; border: 1px solid #ccc; cursor: pointer; }
 
@@ -119,6 +220,7 @@
         .app-card { background: white; padding: 40px 20px; border-radius: 20px; text-align: center; cursor: pointer; box-shadow: var(--shadow); border: 2px solid transparent; transition: 0.3s; text-decoration: none; color: inherit; }
         .app-card:hover { border-color: var(--purple); transform: translateY(-5px); }
 
+        /* ESTILOS NUEVOS PARA EL HUB (MENU DE INICIO) */
         .icon-circle { width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; font-size: 3.5rem; }
         .bg-maturity { background-color: #fff0f6; }
         .bg-tools { background-color: #f0f4ff; }
@@ -163,112 +265,7 @@
         .modal-content { background: white; padding: 25px; border-radius: 15px; width: 90%; max-width: 400px; text-align: center; }
         .modal-content input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
 
-        h1 {
-            color: var(--purple);
-            font-size: 2.5rem;
-            font-weight: 600;
-            text-align: center;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-        }
-        
-        h2 {
-            color: var(--purple) !important;
-            text-align: center;
-            font-size: 2rem;
-            font-weight: 500;
-            margin-bottom: 20px;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        .resource-card {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-            border-top: 4px solid var(--purple);
-            margin-bottom: 20px;
-            text-align: left;
-            transition: transform 0.2s;
-        }
-
-        .resource-card:hover { transform: translateY(-3px); }
-
-        .resource-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 8px;
-        }
-
-        .resource-title {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: #222;
-        }
-
-        .resource-tag {
-            font-size: 0.85rem;
-            color: #666;
-            margin-bottom: 12px;
-        }
-
-        .btn-sm {
-            padding: 8px 15px;
-            font-size: 0.9rem;
-            width: auto;
-            display: inline-block;
-            margin-top: 0;
-        }
-
-        #tools-screen p#txt-tools-subtitle {
-            margin-bottom: 40px;
-            color: #666;
-            font-size: 1.1rem;
-            font-weight: 400;
-            line-height: 1.4;
-            letter-spacing: 0.5px;
-        }
-
-        #tools-screen .resource-card {
-            padding: 30px 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            min-height: 180px; 
-        }
-
-        .guia-contenedor {
-            border: 2px solid var(--purple) !important;
-            background-color: white !important;
-            margin-bottom: 40px !important;
-        }
-
-        .btn-nav-full {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            margin-top: 30px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .main-footer {
-            text-align: center;
-            padding: 25px;
-            margin-top: 40px;
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .main-footer a {
-            color: var(--purple);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .main-footer a:hover { text-decoration: underline; }
-
+        /* ESTILOS DE IMPRESIÓN */
         @media print {
             header, .btn-row, #langPicker, #txt-print, .modal { display: none !important; }
             body { background: white; font-size: 12pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; margin: 15mm !important; }
@@ -281,8 +278,11 @@
         }
 
         @media (max-width: 600px) {
-            h1 { font-size: 1.8rem; margin-bottom: 20px; }
-            h2 { font-size: 1.5rem; margin-bottom: 15px; }
+            /* Ajuste de encabezados para móvil */
+            h1 { font-size: 1.8rem; margin-bottom: 20px; } /* Bajamos de 2.5 a 1.8 */
+            h2 { font-size: 1.5rem; margin-bottom: 15px; } /* Bajamos de 2.0 a 1.5 */
+
+            /* Tus otros estilos que ya tenías */
             .likert { gap: 8px; flex-wrap: wrap; }
             .likert label { font-size: 1rem; padding: 8px 6px; }
             .likert input[type="radio"] { transform: scale(1.2); margin-bottom: 8px; }
@@ -292,16 +292,19 @@
             header { padding: 10px 14px; }
             .q-card{ padding: 18px; }
         }
+
+           
+
     </style>
 </head>
 
+
 <body>
 
-   <header>
+    <header>
         <div class="header-top">
-            <div class="itcilo-logo-container" style="display: flex; align-items: center; gap: 10px;">
-                <img src="logo-ITCILO.png" alt="ITCILO Logo" class="logo-img">
-               <!-- <span style="color: var(--purple); font-weight: 900; font-size: 1.5rem; font-family: Arial, sans-serif;">ITCILO</span> -->
+            <div class="itcilo-logo-container">
+                <img src="logo-itcilo.png" alt="ITCILO Logo" class="logo-img">
             </div>
             
             <select id="langPicker" onchange="changeLanguage()">
@@ -310,14 +313,36 @@
                 <option value="fr">Français</option>
             </select>
         </div>
-
-        <div class="header-bottom">
-            <div class="logo" role="button" onclick="showSection('selection-screen')" ontouchstart="">
-                <span>🏠</span>
-                <span id="txt-nav-home">Inicio</span>
-            </div>
-        </div>
     </header>
+
+    <div style="background: white; 
+                padding: 10px 20px; 
+                border-bottom: 1px solid #e0e0e0;
+                position: sticky;
+                top: 0;
+                z-index: 99;">
+        <div onclick="showSection('main-hub'); window.scrollTo(0,0);" 
+            style="display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 10px 15px;
+                    cursor: pointer;
+                    font-weight: bold;
+                    color: #005EB8;
+                    font-size: 1.4rem;
+                    background: #f0f4ff;
+                    border-radius: 8px;
+                    border: 2px solid #005EB8;
+                    touch-action: manipulation;
+                    -webkit-tap-highlight-color: rgba(0,94,184,0.2);">
+            <span>🏠</span>
+            <span id="txt-nav-home">Inicio</span>
+        </div>
+    </div>
+
+
+
+
 
 <!-- AQUI SE DEFINEN LAS SECCIONES-->   
 
@@ -480,12 +505,7 @@
                     </div>
                 </div>
 
-                <div style="max-width: 900px; margin: 0 auto;">
-                    <button class="btn btn-outline btn-nav-full" onclick="showSection('main-hub')" id="txt-btn-back-hub">
-                        Regresar al Inicio
-                    </button>
-                </div>
-
+                
             </div>
         </section>
         
@@ -649,7 +669,7 @@
                 <button class="btn btn-outline btn-nav-full" onclick="showSection('tools-screen')" id="txt-btn-back-to-tools">
                     Regresar
                 </button>
-</div>
+            </div>
             </div>
         </section>
 
@@ -665,6 +685,7 @@
             </p>
         </footer>
 
+       
 
 <!--COMIENZA SECCION DE SCRIPTS-->     
 
@@ -1634,6 +1655,3 @@
     </script>
 </body>
 </html>
-
-
-
